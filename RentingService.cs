@@ -58,6 +58,21 @@ class RentingService
         // Returnere kvitteringen
         return receipt;
     }
+    public ReturnReceipt? ReturnBook(string title)
+    {
+        var borrowedEntry = currentlyBorrowed
+        .Where(entry => entry.Key.Title == title)
+        .FirstOrDefault();
+        Book book = borrowedEntry.Key;
+        int borrowedAmount = borrowedEntry.Value;
+        if (book == null || borrowedAmount == 0)
+        {
+            return null;
+        }
+
+        currentlyBorrowed[book]--;
+        return new ReturnReceipt(book.Title);
+    }
 }
 
 class Book
@@ -89,8 +104,11 @@ class BorrowReceipt
 class ReturnReceipt
 {
     public DateTime ReturnDate { get; set; }
+    public string BookTitle { get; set; }
 
-    
-    
-
+    public ReturnReceipt(string bookTitle)
+    {
+        BookTitle = bookTitle;
+        ReturnDate = DateTime.Today;
+    }
 }

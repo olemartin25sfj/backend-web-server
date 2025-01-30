@@ -26,4 +26,17 @@ return Results.BadRequest("Not Available");
    }
 });
 
-app.Run();
+app.MapPost("/return", (BorrowRequest returnRequest) =>
+{
+    ReturnReceipt? receipt = rentingService.ReturnBook(returnRequest.BookTitle);
+    if (receipt == null)
+    {
+        return Results.BadRequest("I cannot carry any more");
+    }
+    else
+    {
+        return Results.Ok(receipt);
+    }
+});
+
+app.Run(); 
