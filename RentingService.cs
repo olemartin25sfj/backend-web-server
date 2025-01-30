@@ -88,5 +88,9 @@ class BorrowReceipt
 
 class ReturnReceipt
 {
+    public DateTime ReturnDate { get; set; }
+
     
+    
+
 }
